@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiểm Tra Câu Hỏi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Kiểm Tra Câu Hỏi</h1>
+        <form id="quiz-form">
+            <div class="question">
+                <p>Câu 1: Bạn thích nữ hay nam?</p>
+                <input type="radio" name="q1" value="nữ"> Nữ<br>
+                <input type="radio" name="q1" value="nam"> Nam<br>
+            </div>
+            <div class="question">
+                <p>Câu 2: Bạn thích ăn cơm hay ăn vặt?</p>
+                <input type="radio" name="q2" value="cơm"> Cơm<br>
+                <input type="radio" name="q2" value="ăn vặt"> Ăn vặt<br>
+            </div>
+            <div class="question">
+                <p>Câu 3: Bạn thích ngủ hay thích học?</p>
+                <input type="radio" name="q3" value="ngủ"> Ngủ<br>
+                <input type="radio" name="q3" value="học"> Học<br>
+            </div>
+            <button type="submit">Nộp Bài</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <!-- Đoạn mã JavaScript gắn trực tiếp vào HTML -->
+    <script>
+        document.getElementById('quiz-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let score = {
+                "nữ": 0,
+                "nam": 0,
+                "cơm": 0,
+                "ăn vặt": 0,
+                "ngủ": 0,
+                "học": 0
+            };
+
+            // Lấy giá trị câu trả lời từ form
+            const q1Answer = document.querySelector('input[name="q1"]:checked')?.value;
+            const q2Answer = document.querySelector('input[name="q2"]:checked')?.value;
+            const q3Answer = document.querySelector('input[name="q3"]:checked')?.value;
+
+            // Tính điểm cho các nhóm
+            if (q1Answer) score[q1Answer]++;
+            if (q2Answer) score[q2Answer]++;
+            if (q3Answer) score[q3Answer]++;
+
+            // Kiểm tra kết quả
+            const group1 = [score["nữ"], score["cơm"], score["ngủ"]];
+            const group2 = [score["nam"], score["ăn vặt"], score["học"]];
+
+            // Xác định điểm số
+            if (group1.filter(answer => answer > 0).length >= 2) {
+                document.getElementById('result').textContent = "Điểm của bạn: Bạn bị gay";
+            } else if (group2.filter(answer => answer > 0).length >= 2) {
+                document.getElementById('result').textContent = "Điểm của bạn: Bạn là trai thẳng";
+            } else {
+                document.getElementById('result').textContent = "Điểm của bạn: Không xác định";
+            }
+        });
+    </script>
+</body>
+</html>
